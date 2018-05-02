@@ -23,37 +23,20 @@ class Api::V1::ArtworksController < ApplicationController
     end
 
 
-  query = params[:q].split.join('-')
+    query = params[:q].split.join('-')
 
-  searchItem = api.search(q: query)
-  artistName = searchItem.q.split("-").join(" ").titleize
-  @artist = Artist.create(name: artistName)
-  # byebug
+    searchItem = api.search(q: query)
+    artistName = searchItem.q.split("-").join(" ").titleize
+    searchArtist = Artist.find_or_create_by(name: artistName)
+    # byebug
 
-  @artworks = []
+    @artworks = {}
 
-  searchItem._embedded.results.each do |item|
-    @artworks << Artwork.create(img: item._links.thumbnail.to_s, name: item.title.to_s, artist_id: @artist.id)
+    searchItem._embedded.results.each do |item|
+      @artworks[searchArtist.name] = Artwork.find_or_create_by(img: item._links.thumbnail.to_s, name: item.title.to_s, artist_id: searchArtist.id)
+    end
+
+    render json: @artworks
   end
-
-
-
-
-
-  # searchItem = api.search(q: query)
-  # artistName = searchItem.q.split("-").join(" ").titleize
-  # artworkArtist = Artist.find_or_create_by(name: artistName)
-  #
-  # @artworks = []
-  # searchItem._embedded.results.each do |item|
-  #   @artworks << Artwork.find_or_create_by(img: item._links.thumbnail.to_s, name: item.title.to_s)
-  # end
-  # # @artworks = createArtworks(searchItem, artistName)
-  render json: @artworks
-end
-
-# def createArtworks(searchItem, artistName)
-#
-# end
 
 end
