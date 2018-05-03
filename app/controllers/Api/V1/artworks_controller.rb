@@ -8,7 +8,7 @@ class Api::V1::ArtworksController < ApplicationController
 
 
   def create
-    xapp_token = ''
+
 
     api = Hyperclient.new("https://api.artsy.net/api/") do |api|
       api.headers['Accept'] = 'application/vnd.artsy-v2+json'
@@ -31,9 +31,10 @@ class Api::V1::ArtworksController < ApplicationController
     # byebug
 
     @artworks = {}
+    @artworks[artistName] = []
 
     searchItem._embedded.results.each do |item|
-      @artworks[searchArtist.name] = Artwork.find_or_create_by(img: item._links.thumbnail.to_s, name: item.title.to_s, artist_id: searchArtist.id)
+      @artworks[artistName] << Artwork.find_or_create_by(img: item._links.thumbnail.to_s, name: item.title.to_s, artist_id: searchArtist.id)
     end
 
     render json: @artworks
