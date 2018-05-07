@@ -8,7 +8,7 @@ class Api::V1::ArtworksController < ApplicationController
 
 
   def create
-
+    xapp_token = ''
 
     api = Hyperclient.new("https://api.artsy.net/api/") do |api|
       api.headers['Accept'] = 'application/vnd.artsy-v2+json'
@@ -34,10 +34,15 @@ class Api::V1::ArtworksController < ApplicationController
     @artworks[artistName] = []
 
     searchItem._embedded.results.each do |item|
-      @artworks[artistName] << Artwork.find_or_create_by(img: item._links.thumbnail.to_s, name: item.title.to_s, artist_id: searchArtist.id)
+      # if item._links.thumbnail != nil
+        @artworks[artistName] << Artwork.find_or_create_by(img: item._links.thumbnail.to_s, name: item.title.to_s, artist_id: searchArtist.id)
+      # end
     end
+    # byebug
+    shuffledData = @artworks.values.shuffle
+    data = shuffledData[0..9]
 
-    render json: @artworks
+    render json: data
   end
 
 end

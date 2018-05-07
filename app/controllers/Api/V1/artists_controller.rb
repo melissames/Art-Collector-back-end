@@ -5,7 +5,6 @@ def index
 
   @artworks = []
   @artists.each do |artist|
-    # @artworks[artist.name] = []
     @artworks << Artwork.all.select{|artwork| artwork.artist_id == artist.id}
   end
 
