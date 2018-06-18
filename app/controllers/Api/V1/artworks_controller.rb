@@ -8,7 +8,7 @@ class Api::V1::ArtworksController < ApplicationController
 
 
   def create
-    xapp_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTUyNjQ3OTY3NywiaWF0IjoxNTI1ODc0ODc3LCJhdWQiOiI1YWYyZjNkZjc2MjJkZDU0Mzc3NjM1YmIiLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWFmMzAwYmQ4YjBjMTQxMzhjZDg5MjM4In0.N7OK_IDiyntIlZm9WMVxPj2tIbBJ_HyW6CkcwDo8VfA'
+    xapp_token = ''
 
     api = Hyperclient.new("https://api.artsy.net/api/") do |api|
       api.headers['Accept'] = 'application/vnd.artsy-v2+json'

@@ -12,7 +12,6 @@ class Api::V1::ColorsController < ApplicationController
     image = Magick::Image.from_blob(open(image_url).read).first
     quant = image.quantize(5, Magick::RGBColorspace)
     palette = quant.color_histogram.sort { |a, b| a[1] <=> b[1] }
-
     total_depth = image.columns * image.rows
 
     results = []
